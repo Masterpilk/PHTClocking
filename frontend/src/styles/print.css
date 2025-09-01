@@ -1,0 +1,5 @@
+@media print {
+  body { color: black; background: white; }
+  ul { list-style: none; padding: 0; }
+  li { page-break-inside: avoid; }
+}

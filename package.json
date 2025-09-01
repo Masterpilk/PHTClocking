@@ -1,0 +1,17 @@
+{
+  "name": "phtclocking",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": ["server", "frontend"],
+  "scripts": {
+    "dev": "concurrently -n server,frontend -c blue,green \"npm:dev --workspace server\" \"npm:dev --workspace frontend\"",
+    "build": "npm run build --workspace server && npm run build --workspace frontend",
+    "start": "node server/dist/server.js",
+    "test": "npm test --workspaces",
+    "playwright": "npm test --workspace server -- e2e.spec.ts",
+    "prisma:migrate": "npm run prisma:migrate --workspace server"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.1"
+  }
+}
