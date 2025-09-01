@@ -1,0 +1,8 @@
+FROM node:20-alpine
+WORKDIR /app
+COPY server/package*.json ./server/
+COPY prisma ./prisma
+RUN npm install -g prisma && cd server && npm install && npm cache clean --force
+COPY server ./server
+RUN npx prisma generate --schema=prisma/schema.prisma && cd server && npm run build
+CMD ["node", "server/dist/server.js"]

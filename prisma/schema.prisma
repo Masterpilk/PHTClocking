@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum Role { Cast Crew Tech FOH Musician Visitor }
+enum UserRole { Admin FireMarshal StageManager }
+enum Direction { IN OUT }
+enum Method { KIOSK ADMIN QR API }
+
+model Person {
+  id        String   @id @default(uuid())
+  firstName String
+  lastName  String
+  displayName String
+  email     String?  @unique
+  phone     String?
+  role      Role
+  emergencyContactName  String?
+  emergencyContactPhone String?
+  isActive  Boolean  @default(true)
+  events    CheckEvent[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CheckEvent {
+  id        String   @id @default(uuid())
+  personId  String
+  person    Person   @relation(fields: [personId], references: [id])
+  direction Direction
+  timestamp DateTime @default(now())
+  zoneId    String?
+  zone      Zone?    @relation(fields: [zoneId], references: [id])
+  method    Method   @default(KIOSK)
+  note      String?
+  @@index([personId, timestamp])
+}
+
+model Zone {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  isActive  Boolean  @default(true)
+  events    CheckEvent[]
+}
+
+model User {
+  id          String   @id @default(uuid())
+  email       String   @unique
+  passwordHash String
+  role        UserRole
+  displayName String
+  createdAt   DateTime @default(now())
+}
+
+model Setting {
+  key   String @id
+  value String
+}
