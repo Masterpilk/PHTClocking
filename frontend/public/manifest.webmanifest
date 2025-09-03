@@ -1,0 +1,9 @@
+{
+  "name": "PHT Clocking",
+  "short_name": "Clocking",
+  "start_url": "/kiosk",
+  "display": "standalone",
+  "background_color": "#191919",
+  "theme_color": "#C8A85D",
+  "icons": []
+}
